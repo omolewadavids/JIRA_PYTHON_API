@@ -78,12 +78,11 @@ class JiraActivities():
         }
         create_issue = self.jira.create_issue(jira_dict)
 
-        if update:
+        if fieldNames != None:
+            customFieldIdDict = self.getCustomFieldId(list(fieldNames.keys()))
 
-            customFieldIdDict = self.getCustomFieldId(fieldNames=fieldNames)
-
-            for key in customFieldIdDict.keys():
-                create_issue.update(fields={fieldId: [update]})
+            for field in fieldNames.keys():
+                create_issue.update(fields={customFieldIdDict[field]: [fieldNames[field]]})
 
         return create_issue
 
